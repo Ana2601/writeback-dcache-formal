@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        id: py
+        with:
+          python-version: '3.11'
+      - name: OSS CAD Suite (Icarus, Verilator, Yosys, SymbiYosys)
+        uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: System packages
+        run: sudo apt-get update && sudo apt-get install -y z3
+      - name: Python environment
+        run: |
+          ${{ steps.py.outputs.python-path }} -m venv /tmp/hw-portfolio-venv
+      - name: make test
+        run: |
+          source /tmp/hw-portfolio-venv/bin/activate
+          make test
+      - name: make formal
+        run: |
+          source /tmp/hw-portfolio-venv/bin/activate
+          make formal
+      - name: make lint
+        run: |
+          source /tmp/hw-portfolio-venv/bin/activate
+          make lint

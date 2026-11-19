@@ -1,0 +1,30 @@
+# Formal verification of the write-back data cache (SymbiYosys).
+#
+#   bmc   - bounded model check, 40 cycles from reset
+#   prove - k-induction: the data-integrity property holds in ALL reachable states
+#   cover - witness traces for write-back / evict / refill / read-back scenarios
+
+[tasks]
+bmc
+prove
+cover
+
+[options]
+bmc: mode bmc
+bmc: depth 16
+prove: mode prove
+prove: depth 4
+cover: mode cover
+cover: depth 40
+
+[engines]
+smtbmc z3
+
+[script]
+read_verilog -formal -sv dcache.sv
+read_verilog -formal -sv dcache_formal.sv
+prep -top dcache_formal
+
+[files]
+../rtl/dcache.sv
+dcache_formal.sv

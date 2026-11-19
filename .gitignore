@@ -1,0 +1,22 @@
+# build / simulation output
+build/
+sim_build/
+obj_dir/
+results.xml
+*.vvp
+*.vcd
+*.fst
+*.gtkw
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+# macOS
+.DS_Store
+*.log
+# SymbiYosys task directories
+formal/dcache/
+formal/dcache_bmc/
+formal/dcache_prove/
+formal/dcache_cover/
