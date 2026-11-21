@@ -4,6 +4,8 @@
 
 2-way set-associative, write-back, write-allocate data cache with LRU replacement. Its data integrity is **proven** with SymbiYosys k-induction and also checked by constrained-random simulation.
 
+![Architecture](docs/diagrams/architecture.svg)
+
 ## Design (`rtl/dcache.sv`)
 
 - Parameterised: address/word width, words per line, sets
@@ -42,6 +44,12 @@ make test      # simulation
 make formal    # bmc + prove + cover
 make lint
 ```
+
+## Test run
+
+Output of the CI command (`make test formal lint`), captured from a local run:
+
+![Test run](docs/screenshots/test_run.svg)
 
 ## Limitations / next steps
 
